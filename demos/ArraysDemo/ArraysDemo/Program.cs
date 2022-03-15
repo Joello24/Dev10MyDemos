@@ -7,7 +7,7 @@ namespace ArraysDemo
         static void Main(string[] args)
         {
             Exercises e = new Exercises();
-            e.GrowArray();
+            e.whatever();
         }
 
         static void JaggedMultidimensional()

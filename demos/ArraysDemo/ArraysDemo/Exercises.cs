@@ -30,6 +30,52 @@ namespace ArraysDemo
 
         }
 
+        public void whatever()
+        {
+            string[] hotel = { "Alice", "Bob", null };
+            //         len=3        0     1      2
+            for (int i = 0; i < hotel.Length; i++)
+            {
+                Console.WriteLine($"Capsule {i + 1}: {hotel[i]}");
+            }
+
+            Console.WriteLine($"Capsule {0} is occupied? {isOccupied(hotel, 0)}");
+            Console.WriteLine($"Capsule {1} is occupied? {isOccupied(hotel, 1)}");
+            Console.WriteLine($"Capsule {2} is occupied? {isOccupied(hotel, 2)}");
+
+            hotel = CheckIn(hotel);
+        }
+
+        // X + Y = 10
+        // X = 5
+        // 5 + Y = 10
+
+        public string[] CheckIn(string[] guests)
+        {
+            //do the thing
+            return guests;
+        }
+
+        //
+        // string[3] hotel = { '',    '',    ''}
+        //                      0      1      2
+        // checkin(2, "Jane");
+        // hotel[3] = {'',     '',    "Jane")
+        // hotel[35] = "Mark"; //check in
+        // String.IsNullOrEmpty(hotel[35]);  //occupied?
+        // hotel[35] = null; //check out
+        public bool isOccupied(string[] hotel, int capnum)
+        {
+            if (String.IsNullOrEmpty(hotel[capnum]))
+            {
+                return false;
+            } else
+            {
+                return true;
+            }
+        }
+
+
         public void GrowArray()
         {
             //Given an array, and n. Add more slots to an array.
@@ -63,6 +109,22 @@ namespace ArraysDemo
         {
 
         }
+
+        private bool validationWorks(string[] hotel, int capnum, bool isOccupied)
+        {
+            return string.IsNullOrEmpty(hotel[capnum]) == isOccupied;
+        }
+
+        public bool OccupiedCheck(string[] hotel, int capnum)
+        {
+            return validationWorks(hotel, capnum, true);
+        }
+
+        public bool UnoccupiedCheck(string[] hotel, int capnum)
+        {
+            return validationWorks(hotel, capnum, false);
+        }
+
     }
 
 }
