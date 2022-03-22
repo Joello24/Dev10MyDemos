@@ -1,5 +1,6 @@
 using Gomoku.Players;
 using System;
+using System.Collections.Generic;
 
 namespace Gomoku.Game
 {
@@ -45,7 +46,12 @@ namespace Gomoku.Game
         {
             if(IsOver)
             {
+                Dictionary<int, int> foo = new Dictionary<int, int>() ; 
+                List<int> l = new List<int>(foo.Keys);
+
                 return new Result("Game is over.");
+                
+
             }
 
             if(!IsValid(stone))
