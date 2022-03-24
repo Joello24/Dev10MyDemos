@@ -16,27 +16,94 @@ namespace WeatherAlmanac.BLL
 
         public Result<DateRecord> Add(DateRecord record)
         {
-            throw new NotImplementedException();
+            Result<DateRecord> result = new Result<DateRecord>();
+            Result<List<DateRecord>> records = _repo.GetAll();
+
+
+            if (records.Data.Contains(record))
+            {
+                result.Success = false;
+                result.Message = "Duplicate record";
+            }
+            if (record.Date> DateTime.Now)
+            {
+                result.Success = false;
+                result.Message = "Date can't be in the future";
+            }
+            if (record.Humidity < 0 || record.Humidity > 100)
+            {
+                result.Success = false;
+                result.Message = "Humidity must be between 0-100";
+            }
+            if (record.LowTemp < -50 || record.HighTemp > 140)
+            {
+                result.Success = false;
+                result.Message = "Temperature must be between -50-140";
+            }
+            else
+            {
+                result = _repo.Add(record);
+            }
+            return result;
         }
 
         public Result<DateRecord> Edit(DateRecord record)
         {
-            throw new NotImplementedException();
+            Result<DateRecord> result;
+            
+            result = _repo.Edit(record);
+
+            return result;
         }
 
         public Result<DateRecord> Get(DateTime date)
         {
-            throw new NotImplementedException();
+            Result<List<DateRecord>> records = _repo.GetAll();
+            Result<DateRecord> result = new Result<DateRecord>();
+
+            foreach (DateRecord record in records.Data)
+            {
+                if (record.Date == date)
+                {
+                    result.Data = record;
+                    result.Success = true;
+                    result.Message = "";
+                    return result;
+                }
+            }
+            result.Success = false;
+            result.Message = "Record doesn't exist";
+            result.Data = null;
+            return result;
         }
 
         public Result<List<DateRecord>> LoadRange(DateTime start, DateTime end)
         {
-            throw new NotImplementedException();
+            Result<List<DateRecord>> records = _repo.GetAll();
+            Result<List<DateRecord>> result = new Result<List<DateRecord>>();
+
+            result.Success = false;
+            result.Message = "No records exist in that range.";
+            result.Data = new List<DateRecord>();
+            foreach (DateRecord record in records.Data)
+            {
+                if (record.Date >= start && record.Date <= end)
+                {
+                    result.Data.Add(record);
+                    result.Success = true;
+                    result.Message = "";
+                }
+            }
+
+            return result;
         }
 
         public Result<DateRecord> Remove(DateTime date)
         {
-            throw new NotImplementedException();
+            Result<DateRecord> result;
+
+            result = _repo.Remove(date); 
+            return result;
         }
     }
 }

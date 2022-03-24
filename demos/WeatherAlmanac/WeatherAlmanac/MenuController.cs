@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using WeatherAlmanac.Core.DTO;
 using WeatherAlmanac.Core.Interface;
 
@@ -66,13 +67,9 @@ namespace WeatherAlmanac.UI
                         //Huh??
                         _ui.Error("Invalid menu option");
                         break;
-
                 }
-
             }
-
         }
-
         public int GetMenuChoice()
         {
             DisplayMenu();
@@ -92,27 +89,53 @@ namespace WeatherAlmanac.UI
 
         public void LoadRecord()
         {
-            _ui.Display("Load Record");
+            Result<DateRecord> ret;
+            ret = Service.Get(_ui.GetDate("Enter the date: "));
+            if (ret.Success)
+                _ui.Display(ret.Data.ToString());
+            else
+                _ui.Display(ret.Message);
         }
-
         public void ViewRecordsByDateRange()
         {
-            _ui.Display("View Records By Date Range");
+            Result<List<DateRecord>> ret;
+            DateTime start = _ui.GetDate("Enter the start date: ");
+            DateTime end = _ui.GetDate("Enter the end date: ");
+            ret = Service.LoadRange(start, end);
+            if (ret.Success)
+                foreach(DateRecord record in ret.Data)
+                    _ui.Display(record.ToString());
+            else
+                _ui.Display(ret.Message);
         }
-
         public void AddRecord()
         {
-            _ui.Display("Add Record");
+            Result<DateRecord> ret;
+            ret = Service.Add(_ui.GetRecord("Enter record: "));
+            if (ret.Success)
+                _ui.Display(ret.Data.ToString());
+            else
+                _ui.Display(ret.Message);
         }
-
         public void EditRecord() 
         {
-            _ui.Display("Edit Record");
+            Result<DateRecord> returnCurrent, returnEdit;
+            returnCurrent = Service.Get(_ui.GetDate("Enter the date: "));
+            returnEdit = Service.Edit(_ui.EditRecord(returnCurrent.Data));
+            if (returnEdit.Success)
+                _ui.Display(returnEdit.Data.ToString());
+            else
+                _ui.Display(returnEdit.Message);
         }
 
         public void DeleteRecord()
         {
-            _ui.Display("Delete Record");
+            Result<DateRecord> ret;
+            ret = Service.Remove(_ui.GetDate("Enter record date to delete: "));
+            if (ret.Success)
+                _ui.Display(ret.Data.ToString());
+            else
+                _ui.Display(ret.Message);
         }
     }
 }

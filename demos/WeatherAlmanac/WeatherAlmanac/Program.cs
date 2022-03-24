@@ -16,7 +16,6 @@ namespace WeatherAlmanac
             IRecordService service = RecordServiceFactory.GetRecordService(mode);
             menu.Service = service;
             menu.Run();    //Do the thing!
-
         }
     }
 }
